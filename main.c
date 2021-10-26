@@ -2,28 +2,22 @@
 #include <string.h>
 #include <stdlib.h>
 #define true 1
-#define false 0
+
 
 void addBigNumbers(char first[], char second[], char result[]);
 void sortBigNumbers(char *bigNumbers[],int N);
 
 
 int main(){
-/*
-    char a[100]="abc", b[100]="133", c[200];
 
 
-    addBigNumbers(a, b, c);
 
-    printf("%s",c);*/
 
-    char *bigNumbers[5] = {"32456", "7865549", "1198076", "5437", "345778"};
+    char a[]="123",b[]="123",c[100];
 
-    sortBigNumbers(*bigNumbers,5);
+    addBigNumbers(a,b,c);
 
-    for(int i=0;i<5;i++){
-        printf("%s",*bigNumbers[i]);
-    }
+
 
     return 0;
 }
@@ -51,68 +45,46 @@ void addBigNumbers(char first[], char second[], char result[]){
     int asciiNumCodeDfrnce=48;
     int carry=0;
 
-    int i= strlen(first)-1, j= strlen(second)-1, k= strlen(result);
+    int i= strlen(first)-1, j= strlen(second)-1, k = 0;
 
-    while(true){
+    int n1=0,n2=0,dgt_ttl=0;
 
+    while(i>=0&&j>=0){
 
-        int n1 = (int)(first[i])-asciiNumCodeDfrnce;
-        int n2 = (int)(second[j])-asciiNumCodeDfrnce;
+        n1 = first[i] - asciiNumCodeDfrnce;
+        n2 = second[j] - asciiNumCodeDfrnce;
 
-        if(i<0){
-            while(j>=0){
-                n2 = (int)(second[j])-asciiNumCodeDfrnce;
-                result[k++]=(char)(n2+asciiNumCodeDfrnce);
-                j--;
-            }
-        }
-        if(j<0){
-            while(i>=0){
-                n1 = (int)(first[i])-asciiNumCodeDfrnce;
-                result[k++]=(char)(n1+asciiNumCodeDfrnce);
-                i--;
-            }
+        dgt_ttl = n1+n2+carry;
+
+        if(dgt_ttl<9) {
+            result[k] = (char) (dgt_ttl + asciiNumCodeDfrnce);
+            carry=0;
         }
 
-
-        if(n1+n2+carry<10){
-
-            result[k]=(n1+n2+carry+asciiNumCodeDfrnce);
-        }
         else{
-            result[k]=(n1+n2+carry)%10+asciiNumCodeDfrnce;
-            carry=(n1+n2)/10;
+            carry = dgt_ttl/10;
+            dgt_ttl%=10;
+            result[k] = (char) (dgt_ttl + asciiNumCodeDfrnce);
         }
+
+        i--;
+        j--;
         k++;
-
-        i--,j--;
-
-        if(i<0&&j<0)
-            break;
-
     }
 
+//    printf("%s",result);
 
-
-    for(int c=0;c< strlen(result)/2;c++){
+  /*  for(int c=0;c<k/2;c++){
         char temp = result[c];
         result[c] = result[strlen(result)-c-1];
         result[strlen(result)-c-1]=temp;
-    }
+    }*/
+
+
 }
 
 void sortBigNumbers(char *bigNumbers[],int N){
 
-    char *temp = (char *) calloc(sizeof(char),200);
 
-    for(int i=0;i< strlen(bigNumbers);i++){
-        for(int j=i+1;j< strlen(*bigNumbers);j++) {
-            if(strlen(*bigNumbers[i])> strlen(*bigNumbers[j])){
-                strcpy(temp,*bigNumbers[i]);
-                strcpy(*bigNumbers[i],*bigNumbers[j]);
-                strcpy((*bigNumbers[j]),temp);
-            }
-        }
-    }
-    free(temp);
+
 }
